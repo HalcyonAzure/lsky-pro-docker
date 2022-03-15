@@ -14,8 +14,8 @@ jobs:
         run: |
           curl -OL https://github.com/lsky-org/lsky-pro/archive/refs/heads/master.zip
           unzip *.zip
-          mv ./lsky-pro-master/* ../
-          mv ./lsky-pro-master/.env.example ../
+          mv ./lsky-pro-master/* ./
+          mv ./lsky-pro-master/.env.example ./
           rm -rf lsky-pro-master
           rm master.zip
           tree -L 1
