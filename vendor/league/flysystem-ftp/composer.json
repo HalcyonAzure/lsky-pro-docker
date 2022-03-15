@@ -1,0 +1,25 @@
+{
+    "name": "league/flysystem-ftp",
+    "description": "FTP filesystem adapter for Flysystem.",
+    "keywords": ["filesystem", "flysystem", "ftp", "ftpd", "files", "file"],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "League\\Flysystem\\Ftp\\": ""
+        }
+    },
+    "require": {
+        "php": "^8.0.2",
+        "ext-ftp": "*",
+        "league/flysystem": "^2.0.0 || ^3.0.0",
+        "league/mime-type-detection": "^1.0.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Frank de Jonge",
+            "email": "info@frankdejonge.nl"
+        }
+    ]
+}
