@@ -14,6 +14,8 @@ jobs:
         run: |
           curl -OL https://github.com/lsky-org/lsky-pro/archive/refs/heads/master.zip
           unzip *.zip
+          mv lsky-pro-master/* ../
+          rmdir lsky-pro-master
 
       - name: Login to DockerHub
         uses: docker/login-action@v1 
