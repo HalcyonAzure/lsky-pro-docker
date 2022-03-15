@@ -16,7 +16,6 @@ jobs:
           unzip *.zip
           mv lsky-pro-master/* ../
           mv lsky-pro-master/.env.example ../
-          rm -rf lsky-pro-master
           ls
           tree 
 
