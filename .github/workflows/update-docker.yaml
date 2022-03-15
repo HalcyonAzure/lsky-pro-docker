@@ -27,5 +27,5 @@ jobs:
       
       - name: Build and push
         run: |
-          docker build -t halcyonazure/lsky-pro-docker:latest
+          docker build -t halcyonazure/lsky-pro-docker:latest .
           docker push halcyonazure/lsky-pro-docker:latest
