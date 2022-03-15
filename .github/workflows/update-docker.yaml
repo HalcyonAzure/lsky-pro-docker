@@ -26,6 +26,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
       - name: Build and push
-        run: |
-          docker build -t halcyonazure/lsky-pro-docker:latest .
-          docker push halcyonazure/lsky-pro-docker:latest
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: halcyonazure/lsky-pro-docker:latest
