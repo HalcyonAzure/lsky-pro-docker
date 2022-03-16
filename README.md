@@ -30,7 +30,6 @@ docker exec -it lskypro sed -i '32 a \\\Illuminate\\Support\\Facades\\URL::force
 ```yaml
 version: '3'
 services:
-
   lskypro:
     image: halcyonazure/lsky-pro-docker:latest
     restart: unless-stopped
@@ -57,14 +56,13 @@ services:
       - /data/lsky/mysql/conf:/etc/mysql
       - /data/lsky/mysql/log:/var/log/mysql
     environment:
-    MYSQL_ROOT_PASSWORD: IxWUKMUCwYoTo9pe # 数据库root用户密码
-    MYSQL_DATABASE: lsky-data # 给lsky-pro用的数据库名称
+      MYSQL_ROOT_PASSWORD: lAsWjb6rzSzENUYg # 数据库root用户密码
+      MYSQL_DATABASE: lsky-data # 给lsky-pro用的数据库名称
     networks:
       - lsky-net
 
-  networks:
-    lsky-net:
-
+networks:
+  lsky-net:
 ```
 
 原项目：[☁️兰空图床(Lsky Pro) - Your photo album on the cloud.](https://github.com/lsky-org/lsky-pro)
