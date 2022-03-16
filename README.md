@@ -1,6 +1,6 @@
 # Lsky-Pro Docker镜像
 
-每天早上七点自动拉取最新代码构建Docker镜像
+每周自动拉取最新代码构建Docker镜像
 
 ## 使用方法
 
@@ -17,7 +17,7 @@ docker run -d \
 
 如果使用了Nginx反代后，如果出现无法加载图片的问题，可以根据原项目 [#317](https://github.com/lsky-org/lsky-pro/issues/317) 执行以下指令
 
-#### Tips：将\<container\>改为自己容器的名字
+***Tips：将\<container\>改为自己容器的名字***
 
 ```bash
 docker exec -it lskypro sed -i '32 a \\\Illuminate\\Support\\Facades\\URL::forceScheme('"'"'https'"'"');' /var/www/html/app/Providers/AppServiceProvider.php
