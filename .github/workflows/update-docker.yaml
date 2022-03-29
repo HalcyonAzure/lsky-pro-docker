@@ -22,7 +22,6 @@ jobs:
           mv ./lsky-pro-master/* ./
           mv ./lsky-pro-master/.env.example ./
           rm -rf master.zip lsky-pro-master
-          tree -L 1
 
       - name: Login to DockerHub
         uses: docker/login-action@v1 
