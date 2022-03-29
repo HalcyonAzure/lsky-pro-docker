@@ -23,13 +23,23 @@ jobs:
           mv ./lsky-pro-master/.env.example ./
           rm -rf master.zip lsky-pro-master
 
-      - name: Login to DockerHub
-        uses: docker/login-action@v1 
+      - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          php-version: '8.1'
+        
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      
+      - name: Install Dependencies
+        run: composer install
+
+      # - name: Login to DockerHub
+      #   uses: docker/login-action@v1 
+      #   with:
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
       
       - name: Build and push
         run: |
           docker build -t halcyonazure/lsky-pro-docker:latest .
-          docker push halcyonazure/lsky-pro-docker:latest
+      #   docker push halcyonazure/lsky-pro-docker:latest
