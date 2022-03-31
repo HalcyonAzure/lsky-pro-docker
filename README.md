@@ -36,7 +36,7 @@ services:
     hostname: lskypro
     container_name: lskypro
     volumes:
-      - /data/lsky/storage:/var/www/html/storage
+      - /data/lsky:/var/www/html
     ports:
       - "9080:80"
     networks:
