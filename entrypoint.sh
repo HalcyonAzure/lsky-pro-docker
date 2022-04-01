@@ -7,6 +7,6 @@ if [ ! -e '/var/www/html/public/index.php' ]; then
 fi
     chown -R www-data /var/www/html
     chgrp -R www-data /var/www/html
-    chmod -R 777 /var/www/html/
+    chmod -R 755 /var/www/html/
 
 exec "$@"
