@@ -1,3 +1,6 @@
+FROM php:8.1-apache
+RUN a2enmod rewrite
+
 RUN  sed -i -E "s@http://.*.debian.org@http://mirrors.cloud.tencent.com@g" /etc/apt/sources.list
 # 安装相关拓展
 RUN apt update && apt install imagemagick libmagickwand-dev -y \
