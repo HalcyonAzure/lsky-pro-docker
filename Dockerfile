@@ -1,16 +1,20 @@
-FROM php:8.1-apache
-RUN a2enmod rewrite
+RUN  sed -i -E "s@http://.*.debian.org@http://mirrors.cloud.tencent.com@g" /etc/apt/sources.list
 # 安装相关拓展
 RUN apt update && apt install imagemagick libmagickwand-dev -y \
     && pecl install imagick \
     && docker-php-ext-install bcmath \
     && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-enable imagick 
+    && docker-php-ext-enable imagick
+
+RUN apt install libpq-dev -y \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pgsql
+
 RUN { \
     echo 'post_max_size = 100M;';\
     echo 'upload_max_filesize = 100M;';\
     echo 'max_execution_time = 600S;';\
-    } > /usr/local/etc/php/conf.d/docker-php-upload.ini; 
+    } > /usr/local/etc/php/conf.d/docker-php-upload.ini;
 RUN { \
     echo 'opcache.enable=1'; \
     echo 'opcache.interned_strings_buffer=8'; \
