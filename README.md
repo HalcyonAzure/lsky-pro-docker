@@ -26,17 +26,18 @@ docker exec -it lskypro sed -i '32 a \\\Illuminate\\Support\\Facades\\URL::force
 ## Docker-Compose部署参考
 
 使用`MySQL`来作为数据库的话可以参考原项目 [#256](https://github.com/lsky-org/lsky-pro/issues/256) 来创建`docker-compose.yaml`，参考内容如下：
+同时加入 `pgsql` 作为数据库参考
 
 ```yaml
 version: '3'
 services:
   lskypro:
-    image: halcyonazure/lsky-pro-docker:latest
+    image: pgsql-lsky:v2.0
     restart: unless-stopped
     hostname: lskypro
     container_name: lskypro
     volumes:
-      - /data/lsky:/var/www/html
+      - /data/lsky/web:/var/www/html/
     ports:
       - "9080:80"
     networks:
@@ -56,8 +57,24 @@ services:
       - /data/lsky/mysql/conf:/etc/mysql
       - /data/lsky/mysql/log:/var/log/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: lAsWjb6rzSzENUYg # 数据库root用户密码
+      MYSQL_ROOT_PASSWORD: 123456 # 数据库root用户密码，自行修改
       MYSQL_DATABASE: lsky-data # 给lsky-pro用的数据库名称
+    networks:
+      - lsky-net
+
+  pgsql-lsky:
+    image: postgres:9.6.23-stretch
+    restart: unless-stopped
+    # 主机名，可作为子网域名填入安装引导当中
+    hostname: pgsql-lsky
+    # 容器名称
+    container_name: pgsql-lsky
+    volumes:
+      - /data/lksy/pgsql/data:/var/lib/postgresql/data
+    environment:
+      # 注意默认用户是 postgress，可自行设置
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: lsky-data # 给lsky-pro用的数据库名称
     networks:
       - lsky-net
 
