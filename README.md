@@ -32,7 +32,7 @@ docker exec -it lskypro sed -i '32 a \\\Illuminate\\Support\\Facades\\URL::force
 version: '3'
 services:
   lskypro:
-    image: pgsql-lsky:v2.0
+    image: halcyonazure/lsky-pro-docker:latest
     restart: unless-stopped
     hostname: lskypro
     container_name: lskypro
