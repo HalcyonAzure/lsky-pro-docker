@@ -1,0 +1,45 @@
+name: Build and push Docker images
+
+on:
+  workflow_dispatch:
+  schedule:
+  - cron: '0 7 * * *'
+
+env:
+  TZ: Asia/Shanghai 
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Download and Unzip Upstream Source Code
+        run: |
+          curl -OL https://github.com/lsky-org/lsky-pro/archive/refs/heads/master.zip
+          unzip *.zip
+          mv ./lsky-pro-master/* ./
+          mv ./lsky-pro-master/.env.example ./
+          rm -rf master.zip lsky-pro-master
+
+      - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+        with:
+          php-version: '8.1'
+        
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      
+      - name: Install Dependencies
+        run: composer install
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Build and push
+        run: |
+          docker build -t halcyonazure/lsky-pro-docker:dev .
+          docker push halcyonazure/lsky-pro-docker:dev
