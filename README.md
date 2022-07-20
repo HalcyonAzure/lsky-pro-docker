@@ -36,7 +36,7 @@ services:
     hostname: lskypro
     container_name: lskypro
     volumes:
-      - /data/lsky:/var/www/html
+      - /data/lsky/web:/var/www/html/
     ports:
       - "9080:80"
     networks:
@@ -45,7 +45,7 @@ services:
   mysql-lsky:
     image: mysql:5.7.22
     restart: unless-stopped
-    # 主机名，可作为子网域名填入安装引导当中
+    # 主机名，可作为"数据库连接地址"
     hostname: mysql-lsky
     # 容器名称
     container_name: mysql-lsky
@@ -56,13 +56,13 @@ services:
       - /data/lsky/mysql/conf:/etc/mysql
       - /data/lsky/mysql/log:/var/log/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: lAsWjb6rzSzENUYg # 数据库root用户密码
-      MYSQL_DATABASE: lsky-data # 给lsky-pro用的数据库名称
+      MYSQL_ROOT_PASSWORD: lAsWjb6rzSzENUYg # 数据库root用户密码，自行修改
+      MYSQL_DATABASE: lsky-data # 可作为"数据库名称/路径"
     networks:
       - lsky-net
 
 networks:
-  lsky-net:
+  lsky-net: {}
 ```
 
 原项目：[☁️兰空图床(Lsky Pro) - Your photo album on the cloud.](https://github.com/lsky-org/lsky-pro)
