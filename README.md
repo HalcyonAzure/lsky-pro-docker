@@ -13,6 +13,10 @@ docker run -d \
     halcyonazure/lsky-pro-docker:latest
 ```
 
+### Windows内以`WSL`的方式部署`Docker`容器
+
+按照 [#13](https://github.com/HalcyonAzure/lsky-pro-docker/issues/13) 的反馈来看，如果在`Windows`内创建容器出现了将文件挂载于`WSL`内，然后出现了重启系统文件未识别的情况，可以将映射目录修改为类似`\\wsl$\Ubuntu\path-mount-lsky\`的形式
+
 ## 反代HTTPS
 
 如果使用了Nginx反代后，如果出现无法加载图片的问题，可以根据原项目 [#317](https://github.com/lsky-org/lsky-pro/issues/317) 执行以下指令来手动修改容器内`AppServiceProvider.php`文件对于HTTPS的支持
