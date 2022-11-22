@@ -6,7 +6,7 @@ RUN a2enmod rewrite
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
 RUN chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions imagick bcmath pdo_mysql pdo_pgsql
+    install-php-extensions imagick bcmath pdo_mysql pdo_pgsql redis
 RUN { \
     echo 'post_max_size = 100M;';\
     echo 'upload_max_filesize = 100M;';\
