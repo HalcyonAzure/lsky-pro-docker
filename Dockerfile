@@ -1,18 +1,19 @@
 FROM php:8.1-apache
-RUN a2enmod rewrite
 # 如果构建速度慢可以换源
 # RUN  sed -i -E "s@http://.*.debian.org@http://mirrors.cloud.tencent.com@g" /etc/apt/sources.list
 # 安装相关拓展
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
-RUN chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions imagick bcmath pdo_mysql pdo_pgsql redis
-RUN { \
+RUN a2enmod rewrite && chmod +x /usr/local/bin/install-php-extensions && \
+    install-php-extensions imagick bcmath pdo_mysql pdo_pgsql redis && \
+    \
+    { \
     echo 'post_max_size = 100M;';\
     echo 'upload_max_filesize = 100M;';\
     echo 'max_execution_time = 600S;';\
-    } > /usr/local/etc/php/conf.d/docker-php-upload.ini; 
-RUN { \
+    } > /usr/local/etc/php/conf.d/docker-php-upload.ini; \
+    \
+    { \
     echo 'opcache.enable=1'; \
     echo 'opcache.interned_strings_buffer=8'; \
     echo 'opcache.max_accelerated_files=10000'; \
