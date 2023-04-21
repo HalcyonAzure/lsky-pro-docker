@@ -36,6 +36,7 @@ RUN apt-get update && \
 
 COPY ./ /var/www/lsky/
 COPY ./000-default.conf.template /etc/apache2/sites-enabled/
+COPY ./ports.conf.template /etc/apache2/
 COPY entrypoint.sh /
 WORKDIR /var/www/html/
 VOLUME /var/www/html

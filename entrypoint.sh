@@ -2,6 +2,7 @@
 set -eu
 
 envsubst '${APACHE_PORT}' < /etc/apache2/sites-enabled/000-default.conf.template > /etc/apache2/sites-enabled/000-default.conf
+envsubst '${APACHE_PORT}' < /etc/apache2/ports.conf.template > /etc/apache2/ports.conf
 
 if [ ! -e '/var/www/html/public/index.php' ]; then
     cp -a /var/www/lsky/* /var/www/html/
