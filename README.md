@@ -8,8 +8,8 @@
 docker run -d \
     --name lsky-pro \
     --restart unless-stopped \
-    -p 9080:80 \
-    -v /path-to-data:/var/www/html \
+    -p 8089:8089 \
+    -v $PWD/lsky/web:/var/www/html \
     -e WEB_PORT=8089 \
     halcyonazure/lsky-pro-docker:latest
 ```
@@ -49,7 +49,7 @@ services:
     volumes:
       - /data/lsky/web:/var/www/html/
     ports:
-      - "9080:80"
+      - "8089:8089"
     networks:
       - lsky-net
 
