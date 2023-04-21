@@ -63,9 +63,9 @@ services:
     # 修改加密规则
     command: --default-authentication-plugin=mysql_native_password
     volumes:
-      - /data/lsky/mysql/data:/var/lib/mysql
-      - /data/lsky/mysql/conf:/etc/mysql
-      - /data/lsky/mysql/log:/var/log/mysql
+      - $PWD/mysql/data:/var/lib/mysql
+      - $PWD/mysql/conf:/etc/mysql
+      - $PWD/mysql/log:/var/log/mysql
     environment:
       MYSQL_ROOT_PASSWORD: lAsWjb6rzSzENUYg # 数据库root用户密码，自行修改
       MYSQL_DATABASE: lsky-data # 可作为"数据库名称/路径"
