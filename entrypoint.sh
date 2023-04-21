@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eu
 
+envsubst '${APACHE_PORT}' < /etc/apache2/sites-enabled/000-default.conf.template > /etc/apache2/sites-enabled/000-default.conf
+
 if [ ! -e '/var/www/html/public/index.php' ]; then
     cp -a /var/www/lsky/* /var/www/html/
     cp -a /var/www/lsky/.env.example /var/www/html

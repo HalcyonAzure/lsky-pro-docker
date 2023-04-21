@@ -2,8 +2,6 @@ name: Push Dev Branch
 
 on:
   workflow_dispatch:
-  schedule:
-  - cron: '0 7 * * *'
 
 env:
   TZ: Asia/Shanghai 

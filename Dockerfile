@@ -1,6 +1,6 @@
 FROM php:8.1-apache
 # 如果构建速度慢可以换源
-# RUN  sed -i -E "s@http://.*.debian.org@http://mirrors.cloud.tencent.com@g" /etc/apt/sources.list
+RUN  sed -i -E "s@http://.*.debian.org@http://mirrors.cloud.tencent.com@g" /etc/apt/sources.list
 # 安装相关拓展
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
@@ -30,11 +30,13 @@ RUN a2enmod rewrite && chmod +x /usr/local/bin/install-php-extensions && \
     chown -R www-data:root /var/www; \
     chmod -R g=u /var/www
 
+RUN apt-get update && \
+    apt-get install -y gettext && \
+    rm -rf /var/lib/apt/lists/*
+
 COPY ./ /var/www/lsky/
-# COPY ./apache2.conf /etc/apache2/
-COPY ./000-default.conf /etc/apache2/sites-enabled/
+COPY ./000-default.conf.template /etc/apache2/sites-enabled/
 COPY entrypoint.sh /
-# COPY ./docker-php.conf /etc/apache2/conf-enabled
 WORKDIR /var/www/html/
 VOLUME /var/www/html
 EXPOSE 80
