@@ -10,8 +10,13 @@ docker run -d \
     --restart unless-stopped \
     -p 9080:80 \
     -v /path-to-data:/var/www/html \
+    -e WEB_PORT=8089 \
     halcyonazure/lsky-pro-docker:latest
 ```
+
+## 环境变量
+
+目前该容器只有一个环境变量：`WEB_PORT`，用于指定容器内的`Apache`监听的端口，默认为`8089`，如果需要修改的话可以在启动容器时添加`-e WEB_PORT=8089`来指定端口
 
 ### Windows内以`WSL`的方式部署`Docker`容器
 
@@ -39,6 +44,8 @@ services:
     restart: unless-stopped
     hostname: lskypro
     container_name: lskypro
+    environment:
+      - WEB_PORT=8089
     volumes:
       - /data/lsky/web:/var/www/html/
     ports:
