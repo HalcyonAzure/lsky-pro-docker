@@ -2,6 +2,9 @@ name: Push Dev Branch
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - dev
 
 env:
   TZ: Asia/Shanghai 
