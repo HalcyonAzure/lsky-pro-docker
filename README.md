@@ -47,7 +47,7 @@ services:
     environment:
       - WEB_PORT=8089
     volumes:
-      - /data/lsky/web:/var/www/html/
+      - $PWD/lsky/web:/var/www/html/
     ports:
       - "8089:8089"
     networks:
