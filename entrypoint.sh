@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu
 
-WEB_PORT = ${WEB_PORT:-8089}
+WEB_PORT=${WEB_PORT:-8089}
 
 envsubst '${WEB_PORT}' < /etc/apache2/sites-enabled/000-default.conf.template > /etc/apache2/sites-enabled/000-default.conf
 envsubst '${WEB_PORT}' < /etc/apache2/ports.conf.template > /etc/apache2/ports.conf
