@@ -40,6 +40,7 @@ COPY entrypoint.sh /
 WORKDIR /var/www/html/
 VOLUME /var/www/html
 ENV WEB_PORT 8089
+EXPOSE ${WEB_PORT}
 RUN chmod a+x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["apachectl","-D","FOREGROUND"]
