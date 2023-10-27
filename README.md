@@ -47,12 +47,13 @@ services:
     environment:
       - WEB_PORT=8089
     volumes:
-      - /data/lsky/web:/var/www/html/
+      - $PWD/web:/var/www/html/
     ports:
-      - "8089:8089"
+      - "9080:8089"
     networks:
       - lsky-net
 
+  # 注：arm64的无法使用该镜像，请选择sqlite或自建数据库
   mysql-lsky:
     image: mysql:5.7.22
     restart: unless-stopped
@@ -63,9 +64,9 @@ services:
     # 修改加密规则
     command: --default-authentication-plugin=mysql_native_password
     volumes:
-      - /data/lsky/mysql/data:/var/lib/mysql
-      - /data/lsky/mysql/conf:/etc/mysql
-      - /data/lsky/mysql/log:/var/log/mysql
+      - $PWD/mysql/data:/var/lib/mysql
+      - $PWD/mysql/conf:/etc/mysql
+      - $PWD/mysql/log:/var/log/mysql
     environment:
       MYSQL_ROOT_PASSWORD: lAsWjb6rzSzENUYg # 数据库root用户密码，自行修改
       MYSQL_DATABASE: lsky-data # 可作为"数据库名称/路径"
