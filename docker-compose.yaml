@@ -14,6 +14,7 @@ services:
     networks:
       - lsky-net
 
+  # 注：arm64的无法使用该镜像，请选择sqlite或自建数据库
   mysql-lsky:
     image: mysql:5.7.22
     restart: unless-stopped

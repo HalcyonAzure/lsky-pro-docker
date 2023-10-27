@@ -47,12 +47,13 @@ services:
     environment:
       - WEB_PORT=8089
     volumes:
-      - $PWD/lsky/web:/var/www/html/
+      - $PWD/web:/var/www/html/
     ports:
-      - "8089:8089"
+      - "9080:8089"
     networks:
       - lsky-net
 
+  # 注：arm64的无法使用该镜像，请选择sqlite或自建数据库
   mysql-lsky:
     image: mysql:5.7.22
     restart: unless-stopped

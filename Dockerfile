@@ -1,4 +1,23 @@
+FROM php:8.1 AS build
+WORKDIR /build
+
+# 安装必要的依赖
+RUN apt-get update && \
+    apt-get install -y curl unzip && \
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN curl -OL https://github.com/lsky-org/lsky-pro/archive/refs/heads/master.zip \
+    && unzip *.zip \
+    && mv ./lsky-pro-master/* ./ \
+    && mv ./lsky-pro-master/.env.example ./ \
+    && rm -rf master.zip lsky-pro-master
+
+RUN php -r "file_exists('.env') || copy('.env.example', '.env');" \
+    && composer install
+
 FROM php:8.1-apache
+
 # 如果构建速度慢可以换源
 # RUN  sed -i -E "s@http://.*.debian.org@http://mirrors.cloud.tencent.com@g" /etc/apt/sources.list
 # 安装相关拓展
@@ -33,7 +52,7 @@ RUN apt-get update && \
     chown -R www-data:root /var/www; \
     chmod -R g=u /var/www
 
-COPY ./ /var/www/lsky/
+COPY --from=build /build /var/www/lsky/
 COPY ./000-default.conf.template /etc/apache2/sites-enabled/
 COPY ./ports.conf.template /etc/apache2/
 COPY entrypoint.sh /
