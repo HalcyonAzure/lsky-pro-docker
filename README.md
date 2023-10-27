@@ -1,6 +1,6 @@
 # Lsky-Pro Docker镜像
 
-每天自动拉取最新代码构建Docker镜像
+每天自动拉取最新代码构建Docker镜像，现已上传amd64和arm64两种硬件架构。
 
 ## 使用方法
 
@@ -9,7 +9,7 @@ docker run -d \
     --name lsky-pro \
     --restart unless-stopped \
     -p 8089:8089 \
-    -v $PWD/lsky/web:/var/www/html \
+    -v $PWD/lsky:/var/www/html \
     -e WEB_PORT=8089 \
     halcyonazure/lsky-pro-docker:latest
 ```
@@ -78,6 +78,21 @@ networks:
 ```
 
 原项目：[☁️兰空图床(Lsky Pro) - Your photo album on the cloud.](https://github.com/lsky-org/lsky-pro)
+
+## 构建您自己的镜像
+
+现在，您可以通过提供的Dockerfile直接构建自己的Lsky-Pro镜像。Dockerfile已经配置为多段构建，不再需要手动拉取源码。下面的命令展示了如何构建镜像：
+
+```bash
+docker build -t lsky-pro-docker .
+```
+
+如果您想为不同的硬件架构构建镜像（例如，arm64或amd64），您可以使用以下命令：
+
+```bash
+docker buildx create --use
+docker buildx build --platform linux/amd64,linux/arm64 -t lsky-pro-docker .
+```
 
 ## 手动备份/升级
 

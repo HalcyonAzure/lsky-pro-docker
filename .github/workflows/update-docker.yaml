@@ -36,4 +36,4 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: halcyonazure/lsky-pro-docker:dev
+          tags: halcyonazure/lsky-pro-docker:latest
