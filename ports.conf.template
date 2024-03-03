@@ -1,1 +1,2 @@
 Listen ${WEB_PORT}
+Listen ${HTTPS_PORT}
