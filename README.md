@@ -20,8 +20,10 @@ docker run -d \
 docker run -d \
     --name lsky-pro \
     --restart unless-stopped \
+    -p 8088:8088 \
     -p 8089:8089 \
     -v $PWD/lsky:/var/www/html \
+    -e HTTPS_PORT=8088 \
     -e WEB_PORT=8089 \
     halcyonazure/lsky-pro-docker:latest
 ```
