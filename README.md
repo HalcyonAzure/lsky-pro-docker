@@ -14,6 +14,23 @@ docker run -d \
     halcyonazure/lsky-pro-docker:latest
 ```
 
+### 如果要使用Nginx反向代理配置HTTPS，则使用HTTPS访问容器
+
+```docker
+docker run -d \
+    --name lsky-pro \
+    --restart unless-stopped \
+    -p 8089:8089 \
+    -v $PWD/lsky:/var/www/html \
+    -e WEB_PORT=8089 \
+    halcyonazure/lsky-pro-docker:latest
+```
+
+Nginx配置文件示例：
+
+```nginx
+
+
 ## 环境变量
 
 目前该容器只有一个环境变量：`WEB_PORT`，用于指定容器内的`Apache`监听的端口，默认为`8089`，如果需要修改的话可以在启动容器时添加`-e WEB_PORT=8089`来指定端口
