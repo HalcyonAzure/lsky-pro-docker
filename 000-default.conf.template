@@ -27,4 +27,16 @@
 	#Include conf-available/serve-cgi-bin.conf
 </VirtualHost>
 
+<VirtualHost *:${HTTPS_PORT}>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html/public
+
+    SSLEngine on
+    SSLCertificateFile "/etc/ssl/certs/ssl-cert-snakeoil.pem"
+    SSLCertificateKeyFile "/etc/ssl/private/ssl-cert-snakeoil.key"
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
