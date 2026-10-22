@@ -1,9 +1,11 @@
-FROM php:8.1 AS build
+FROM php:8.2.35-cli-bookworm AS build
 WORKDIR /build
 
 # 安装必要的依赖
 RUN apt-get update && \
-    apt-get install -y curl unzip && \
+    apt-get install -y curl unzip libssl-dev && \
+    docker-php-ext-configure ftp --with-openssl-dir=/usr && \
+    docker-php-ext-install ftp && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -16,7 +18,7 @@ RUN curl -OL https://github.com/lsky-org/lsky-pro/archive/refs/heads/master.zip 
 RUN php -r "file_exists('.env') || copy('.env.example', '.env');" \
     && composer install
 
-FROM php:8.1-apache
+FROM php:8.2.35-apache-bookworm
 
 # 如果构建速度慢可以换源
 # RUN  sed -i -E "s@http://.*.debian.org@http://mirrors.cloud.tencent.com@g" /etc/apt/sources.list
@@ -26,11 +28,17 @@ ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/do
 # 开启SSL
 RUN a2enmod ssl && a2ensite default-ssl
 
-RUN apt-get update && \
-    apt-get install -y gettext && \
-    apt-get clean && rm -rf /var/cache/apt/* && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*  && \
-    a2enmod rewrite && chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions imagick bcmath pdo_mysql pdo_pgsql redis && \
+RUN set -eu; \
+    apt-get update; \
+    apt-get install -y gettext; \
+    apt-get clean; \
+    rm -rf /var/cache/apt/* /var/lib/apt/lists/* /tmp/*; \
+    a2enmod rewrite; \
+    chmod +x /usr/local/bin/install-php-extensions; \
+    install-php-extensions ftp imagick bcmath pdo_mysql pdo_pgsql redis; \
+    php -r 'foreach (["ftp", "imagick", "bcmath", "pdo_mysql", "pdo_pgsql", "redis"] as $extension) { \
+        if (!extension_loaded($extension)) { fwrite(STDERR, "Missing PHP extension: {$extension}\n"); exit(1); } \
+    }'; \
     \
     { \
     echo 'post_max_size = 100M;';\

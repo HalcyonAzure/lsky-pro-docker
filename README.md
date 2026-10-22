@@ -125,3 +125,19 @@ docker buildx build --platform linux/amd64,linux/arm64 -t lsky-pro-docker .
 ## 手动备份/升级
 
 如果需要迁移数据库/手动升级`Lsky-Pro`，可以参考官方文档：[升级｜Lsky Pro](https://docs.lsky.pro/docs/free/v2/quick-start/upgrade.html)，来备份主要文件以进行恢复/升级
+
+### PHP 安全更新
+
+镜像的构建和运行阶段均使用 PHP 8.2.35，以修复 [CVE-2026-109618 和 CVE-2026-109619](https://www.php.net/archive/2026.php#2026-10-21-1)。继续使用 PHP 8.2 系列，以兼容当前应用锁定的依赖。
+
+PHP 运行时包含在镜像中。发布包含修复的新镜像后，请先备份数据库及挂载的站点目录，再拉取镜像并重建应用容器。例如，使用上面的 Compose 配置：
+
+```bash
+docker compose pull lskypro
+docker compose up -d --no-deps --force-recreate lskypro
+docker compose exec -T lskypro php -r 'echo PHP_VERSION, PHP_EOL;'
+```
+
+应确认运行中的容器使用 PHP 8.2.35 或更新的 PHP 8.2 安全补丁版本。仅更新宿主机 PHP、更新站点文件或重启旧容器，均不会更新镜像内的 PHP。
+
+自行构建时使用 `docker build --pull -t lsky-pro-docker .`，然后使用新镜像重建容器。维护者也可以在 GitHub Actions 中手动运行构建工作流。已有站点仍使用挂载目录中的应用文件，应用版本升级需按上面的官方文档另行处理。
